@@ -1,12 +1,149 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nimcraft</title>
+  <meta name="description" content="Nimcraft is a collection of projects, experiments, and creations by Nim.">
+  <title>Nimcraft | Projects and creations</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #05070d;
+      --surface: #0b101b;
+      --text: #f5f8ff;
+      --muted: #aab4c7;
+      --blue: #56a9ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background: radial-gradient(circle at 75% 35%, #10264a 0, var(--background) 38%), var(--background);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .page {
+      width: min(1100px, calc(100% - 40px));
+      min-height: 100vh;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(170, 190, 220, .18);
+    }
+
+    .logo {
+      width: 150px;
+      height: 60px;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 8px;
+    }
+
+    nav a {
+      margin-left: 24px;
+      color: var(--muted);
+      font: 600 .82rem/1 Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    nav a:hover { color: var(--blue); }
+
+    main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .content { max-width: 650px; }
+
+    .eyebrow {
+      margin: 0 0 22px;
+      color: var(--blue);
+      font: 700 .75rem/1 Arial, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 400;
+      line-height: .95;
+    }
+
+    p {
+      margin: 26px auto 32px;
+      color: var(--muted);
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 22px;
+      border: 1px solid var(--blue);
+      border-radius: 3px;
+      color: #06101e;
+      background: var(--blue);
+      font: 700 .82rem/1 Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .button:hover { background: #8bc6ff; border-color: #8bc6ff; }
+
+    footer {
+      padding: 20px 0;
+      border-top: 1px solid rgba(170, 190, 220, .18);
+      color: #768197;
+      font: .75rem/1.4 Arial, sans-serif;
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      .page { width: min(100% - 28px, 440px); }
+      header { align-items: flex-start; }
+      .logo { width: 125px; height: 50px; }
+      nav a { margin-left: 12px; }
+      nav a:first-child { display: none; }
+      main { padding: 64px 0; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Nimcraft</h1>
-  <p>Website coming soon.</p>
+  <div class="page">
+    <header>
+      <a href="/" aria-label="Nimcraft home">
+        <img class="logo" src="assets/nimcraft-logo.png" alt="Nimcraft logo">
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#about">About me</a>
+        <a href="mailto:hello@nimcraft.dev">Say hello</a>
+      </nav>
+    </header>
+
+    <main id="about">
+      <section class="content">
+        <p class="eyebrow">My projects and creations</p>
+        <h1>I like to make things.</h1>
+        <p>Welcome to my corner of the internet, where I share the websites, games, experiments, and other things I create.</p>
+        <a class="button" href="#about">See what I have made</a>
+      </section>
+    </main>
+
+    <footer>Made by Nim with curiosity and care.</footer>
+  </div>
 </body>
 </html>
