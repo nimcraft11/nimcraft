@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Play Nimcraft's games.">
+  <title>Nimcraft | Games</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #000000;
+      --text: #f5f8ff;
+      --muted: #aab4c7;
+      --blue: #56a9ff;
+      --line: rgba(170, 190, 220, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background: radial-gradient(circle at 75% 35%, #10264a 0, var(--background) 38%), var(--background);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .page {
+      width: min(900px, calc(100% - 40px));
+      min-height: 100vh;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      width: 150px;
+      height: 60px;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 8px;
+    }
+
+    main { flex: 1; padding: 80px 0; text-align: center; }
+
+    h1 { margin: 0 0 18px; font-size: clamp(3rem, 8vw, 5rem); font-weight: 400; }
+
+    .intro { color: var(--muted); font: 1.1rem/1.6 Arial, sans-serif; }
+
+    .game-list {
+      max-width: 640px;
+      margin: 34px auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      text-align: left;
+    }
+
+    .game-card {
+      display: block;
+      padding: 20px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255, 255, 255, .05);
+      text-decoration: none;
+    }
+
+    .game-card:hover { border-color: var(--blue); background: rgba(86, 169, 255, .1); }
+    .game-card strong { display: block; margin-bottom: 8px; font-size: 1.05rem; }
+    .game-card span { color: var(--muted); font: .78rem/1.4 Arial, sans-serif; }
+
+    .back {
+      color: var(--blue);
+      font: 700 .85rem/1 Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .back:hover { text-decoration: underline; }
+
+    footer {
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+      color: #768197;
+      font: .75rem/1.4 Arial, sans-serif;
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      .page { width: min(100% - 28px, 440px); }
+      main { padding: 64px 0; }
+      .game-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a href="index.html" aria-label="Nimcraft home">
+        <img class="logo" src="assets/nimcraft-logo.png" alt="Nimcraft logo">
+      </a>
+    </header>
+
+    <main>
+      <h1>My games</h1>
+      <p class="intro">Choose a game and give it a try!</p>
+      <div class="game-list">
+        <a class="game-card" href="https://scratch.mit.edu/projects/1220576017/" target="_blank" rel="noopener noreferrer">
+          <strong>Jet Race</strong>
+          <span>Play on Scratch</span>
+        </a>
+        <a class="game-card" href="https://scratch.mit.edu/projects/1228109055/" target="_blank" rel="noopener noreferrer">
+          <strong>the night v5.0.</strong>
+          <span>Play on Scratch</span>
+        </a>
+        <a class="game-card" href="https://scratch.mit.edu/projects/1157990137/" target="_blank" rel="noopener noreferrer">
+          <strong>maze/Escape the Room 3</strong>
+          <span>Play on Scratch</span>
+        </a>
+        <a class="game-card" href="https://scratch.mit.edu/projects/1161761820/" target="_blank" rel="noopener noreferrer">
+          <strong>take down the element's</strong>
+          <span>Play on Scratch</span>
+        </a>
+      </div>
+      <a class="back" href="index.html">← Back to home page</a>
+    </main>
+
+    <footer>Made by Nimcraft.</footer>
+  </div>
+</body>
+</html>

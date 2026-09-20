@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore Nimcraft's projects and creations.">
+  <title>Nimcraft | My projects</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #000000;
+      --text: #f5f8ff;
+      --muted: #aab4c7;
+      --blue: #56a9ff;
+      --line: rgba(170, 190, 220, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background: radial-gradient(circle at 75% 35%, #10264a 0, var(--background) 38%), var(--background);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .page {
+      width: min(900px, calc(100% - 40px));
+      min-height: 100vh;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      width: 150px;
+      height: 60px;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 8px;
+    }
+
+    main {
+      flex: 1;
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    h1 { margin: 0 0 18px; font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 400; }
+
+    p { color: var(--muted); font: 1.1rem/1.6 Arial, sans-serif; }
+
+    a { color: var(--blue); }
+
+    .back {
+      display: inline-block;
+      margin-top: 28px;
+      font: 700 .85rem/1 Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .back:hover { text-decoration: underline; }
+
+    footer {
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+      color: #768197;
+      font: .75rem/1.4 Arial, sans-serif;
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      .page { width: min(100% - 28px, 440px); }
+      main { padding: 72px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a href="index.html" aria-label="Nimcraft home">
+        <img class="logo" src="assets/nimcraft-logo.png" alt="Nimcraft logo">
+      </a>
+    </header>
+
+    <main>
+      <h1>My projects</h1>
+      <p>Explore the games and creations I have made.</p>
+      <p>Check out my Scratch profile to see a few of my projects and games.</p>
+      <a href="https://scratch.mit.edu/users/nimcraft/" target="_blank" rel="noopener noreferrer">Visit my Scratch profile</a>
+      <a class="back" href="index.html">← Back to home page</a>
+    </main>
+
+    <footer>Made by Nimcraft.</footer>
+  </div>
+</body>
+</html>

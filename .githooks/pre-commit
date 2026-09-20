@@ -1,0 +1,39 @@
+#!/bin/sh
+set -eu
+
+fail() {
+  printf 'pre-commit: %s\n' "$1" >&2
+  exit 1
+}
+
+# Check staged patches for whitespace mistakes.
+git diff --cached --check || fail "staged diff contains whitespace errors"
+
+# Required entry points and the logo must remain present in the staged tree.
+for required in index.html about.html games.html projects.html assets/nimcraft-logo.png; do
+  git cat-file -e ":$required" 2>/dev/null || fail "required file is missing from the staged tree: $required"
+done
+
+# Reject unresolved merge markers in staged text files.
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(html|css|js|json|md|txt)$' || true); do
+  git show ":$file" | grep -nE '^(<<<<<<<|=======|>>>>>>>)' && fail "merge-conflict marker found in $file"
+done
+
+# Validate local HTML links and image paths. External URLs, mailto links, and anchors are ignored.
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.html$' || true); do
+  git show ":$file" | grep -oE '(href|src)="[^"]+"' | sed 's/^[^=]*="//; s/"$//' | while IFS= read -r reference; do
+    case "$reference" in
+      http://*|https://*|mailto:*|\#*|/\#*|javascript:*) continue ;;
+    esac
+
+    target=${reference%%\#*}
+    [ -n "$target" ] || continue
+    case "$target" in
+      /*) target=${target#/} ;;
+    esac
+    base=$(dirname "$file")
+    [ -e "$base/$target" ] || fail "$file points to missing local file: $reference"
+  done
+done
+
+printf 'pre-commit: checks passed\n'
