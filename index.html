@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Nimcraft is a collection of projects, experiments, and creations by Nim.">
-  <title>Nimcraft | Projects and creations</title>
+  <title>Nimcraft</title>
   <style>
     :root {
       color-scheme: dark;
-      --background: #05070d;
-      --surface: #0b101b;
+      --background: #000000;
+      --surface: #030404;
       --text: #f5f8ff;
       --muted: #aab4c7;
       --blue: #56a9ff;
@@ -93,6 +93,7 @@
 
     .button {
       display: inline-block;
+      cursor: pointer;
       padding: 14px 22px;
       border: 1px solid var(--blue);
       border-radius: 3px;
@@ -104,6 +105,24 @@
 
     .button:hover { background: #8bc6ff; border-color: #8bc6ff; }
 
+    .button.secondary {
+      color: var(--blue);
+      background: transparent;
+    }
+
+    .button.secondary:hover {
+      color: #06101e;
+      background: #8bc6ff;
+      border-color: #8bc6ff;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     footer {
       padding: 20px 0;
       border-top: 1px solid rgba(170, 190, 220, .18);
@@ -111,6 +130,24 @@
       font: .75rem/1.4 Arial, sans-serif;
       text-align: center;
     }
+
+    .projects {
+      margin: 0 calc((100vw - min(1100px, 100vw - 40px)) / -2);
+      padding: 56px max(20px, calc((100vw - 1100px) / 2));
+      color: #101827;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    .projects[hidden] { display: none; }
+
+    .projects h2 { margin: 0 0 12px; font-size: 2rem; font-weight: 400; }
+
+    .projects p { margin: 0; color: #596579; font: 1rem/1.5 Arial, sans-serif; }
+
+    .projects a { color: #1672c4; text-decoration: none; }
+
+    .projects a:hover { text-decoration: underline; }
 
     @media (max-width: 520px) {
       .page { width: min(100% - 28px, 440px); }
@@ -125,25 +162,27 @@
 <body>
   <div class="page">
     <header>
-      <a href="/" aria-label="Nimcraft home">
+      <a href="index.html" aria-label="Nimcraft home">
         <img class="logo" src="assets/nimcraft-logo.png" alt="Nimcraft logo">
       </a>
       <nav aria-label="Main navigation">
-        <a href="#about">About me</a>
-        <a href="mailto:hello@nimcraft.dev">Say hello</a>
+        <a href="about.html">About me</a>
       </nav>
     </header>
 
     <main id="about">
       <section class="content">
         <p class="eyebrow">My projects and creations</p>
-        <h1>I like to make things.</h1>
-        <p>Welcome to my corner of the internet, where I share the websites, games, experiments, and other things I create.</p>
-        <a class="button" href="#about">See what I have made</a>
+        <h1>Welcome To Nimcraft.io!</h1>
+        <p>Hello! I'm the creator of Nimcraft.io. I build games from different tools to help me shape my Dreams!</p>
+        <div class="actions">
+          <a class="button" href="projects.html">See what I have made</a>
+          <a class="button secondary" href="games.html">Games</a>
+        </div>
       </section>
     </main>
 
-    <footer>Made by Nim with curiosity and care.</footer>
+    <footer>Made by Nimcraft.</footer>
   </div>
 </body>
 </html>
