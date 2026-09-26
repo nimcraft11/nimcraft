@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Learn more about the creator of Nimcraft.">
-  <title>Nimcraft | About me</title>
+  <meta name="description" content="Play Nimcraft's games.">
+  <title>Nimcraft | Scratch Games</title>
   <style>
     :root {
+      color-scheme: dark;
       --background: #050b16;
       --surface: #0d1729;
       --text: #ecf6ff;
@@ -37,10 +38,28 @@
       font-family: Georgia, 'Times New Roman', serif;
     }
 
-    .particle-layer { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
-    .particle { position: absolute; width: var(--size); height: var(--size); border-radius: 50%; background: #9fddff; box-shadow: 0 0 12px 3px rgba(86, 169, 255, .45); filter: brightness(1); opacity: 0; animation: particle-life var(--life) ease-in-out forwards; }
+    .particle-layer {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: #9fddff;
+      box-shadow: 0 0 12px 3px rgba(86, 169, 255, .45);
+      filter: brightness(1);
+      opacity: 0;
+      animation: particle-life var(--life) ease-in-out forwards;
+    }
     .particle::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; background: rgba(217, 244, 255, .8); filter: blur(5px); opacity: 0; animation: particle-glimmer var(--glimmer) ease-in-out var(--glimmer-delay) infinite; }
     @keyframes particle-glimmer { 0%, 100% { opacity: .2; transform: scale(.7); } 50% { opacity: var(--glimmer-opacity); transform: scale(1.25); } }
+
     @keyframes particle-life {
       0% { opacity: 0; transform: translate3d(0, 0, 0); }
       15% { opacity: var(--opacity); }
@@ -86,58 +105,153 @@
       transform: translateY(-1px);
     }
 
-    main {
-      flex: 1;
-      padding: 72px 0;
-    }
-
-    .content { max-width: 680px; margin: auto; }
-
-    .eyebrow {
-      margin: 0 0 18px;
-      color: var(--cyan);
-      font: 700 .75rem/1 Arial, sans-serif;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      text-shadow: 0 0 16px rgba(122, 231, 255, 0.45);
-    }
+    main { flex: 1; padding: 80px 0; text-align: center; }
 
     h1 {
-      margin: 0 0 26px;
+      margin: 0 0 18px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       font-size: clamp(3rem, 8vw, 5rem);
       font-weight: 800;
       line-height: .9;
-      letter-spacing: .08em;
-      color: #00e5ff;
-      text-shadow: 0 0 20px rgba(97, 177, 255, 0.38), 0 0 40px rgba(122, 231, 255, 0.28);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #ecf6ff 0%, #8ad4ff 35%, #6eb5ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: -1px 1px 0 #5aa5e6, -2px 2px 0 #438bd0, -3px 3px 0 #3274b2, -4px 4px 0 #28679f, -5px 5px 0 #20578f, -6px 6px 0 #194878, -7px 7px 0 #12395f, -8px 8px 0 rgba(8, 23, 43, 0.96), 0 0 24px rgba(97, 177, 255, 0.52), 0 0 44px rgba(122, 231, 255, 0.36);
+      filter: drop-shadow(-4px 9px 11px rgba(0, 0, 0, 0.5));
     }
 
-    p { color: var(--muted); font-size: 1.1rem; line-height: 1.7; }
-
-    .fill-in {
-      padding: 24px;
-      border-left: 3px solid var(--cyan);
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(122, 231, 255, 0.08), rgba(97, 177, 255, 0.04));
-      box-shadow: inset 0 0 0 1px rgba(122, 231, 255, 0.08);
-      transition: filter .2s ease, box-shadow .2s ease, transform .2s ease;
+    .intro {
+      color: var(--cyan);
+      font: 700 1rem/1.4 Arial, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(122, 231, 255, 0.35);
     }
 
-    .fill-in:hover {
-      filter: brightness(1.12);
-      box-shadow: inset 0 0 0 1px rgba(122, 231, 255, 0.12), 0 0 18px rgba(122, 231, 255, 0.1);
+    .game-list {
+      max-width: 640px;
+      margin: 34px auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      text-align: left;
+    }
+
+    .game-card {
+      position: relative;
+      display: block;
+      padding: 20px;
+      border: 1px solid rgba(122, 231, 255, 0.38);
+      border-radius: 20px;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(19, 34, 54, 0.96), rgba(9, 17, 28, 0.96));
+      text-decoration: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 18px rgba(97, 177, 255, 0.12), 0 10px 24px rgba(3, 6, 14, 0.35);
+      overflow: hidden;
+      transition: filter .2s ease, box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(122, 231, 255, 0.16), transparent 38%, rgba(122, 231, 255, 0.05));
+      pointer-events: none;
+    }
+
+    .game-card img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 140px;
+      display: block;
+      margin-bottom: 16px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(122, 231, 255, 0.22);
+    }
+
+    .game-card:hover {
+      border-color: var(--cyan);
+      background: rgba(122, 231, 255, .08);
+      filter: brightness(1.18);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 0 24px rgba(122, 231, 255, 0.18), 0 0 26px rgba(122, 231, 255, 0.18);
       transform: translateY(-1px);
     }
+    .game-card strong {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.12rem;
+      letter-spacing: .04em;
+    }
+    .game-card span {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font: .78rem/1.4 Arial, sans-serif;
+    }
 
-    .fill-in p { margin: 0 0 16px; }
-    .fill-in p:last-child { margin-bottom: 0; }
+    .bottom-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .profile-card {
+      width: min(420px, 100%);
+      display: block;
+      position: relative;
+      padding: 20px;
+      border: 1px solid rgba(122, 231, 255, 0.38);
+      border-radius: 20px;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(19, 34, 54, 0.96), rgba(9, 17, 28, 0.96));
+      text-decoration: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 18px rgba(97, 177, 255, 0.12), 0 10px 24px rgba(3, 6, 14, 0.35);
+      transition: filter .2s ease, box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(122, 231, 255, 0.16), transparent 38%, rgba(122, 231, 255, 0.05));
+      pointer-events: none;
+    }
+
+    .profile-card:hover {
+      border-color: var(--cyan);
+      background: rgba(122, 231, 255, .08);
+      filter: brightness(1.18);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 0 24px rgba(122, 231, 255, 0.18), 0 0 26px rgba(122, 231, 255, 0.18);
+      transform: translateY(-1px);
+    }
+    .profile-card strong {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+    .profile-card span {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font: .78rem/1.4 Arial, sans-serif;
+    }
 
     .back {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-top: 34px;
       padding: 12px 16px;
       border: 1px solid var(--line);
       border-radius: 12px;
@@ -167,8 +281,8 @@
 
     @media (max-width: 520px) {
       .page { width: min(100% - 28px, 440px); }
-      main { padding: 56px 0; }
-      .fill-in { padding: 18px; }
+      main { padding: 64px 0; }
+      .game-list { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -182,25 +296,52 @@
     </header>
 
     <main>
-      <section class="content">
-        <p class="eyebrow">A little bit about me</p>
-        <h1>Hi, I'm Nimcraft!</h1>
-        <div class="fill-in">
-          <p>I have been working on parts of nimcraft.io to publish my projects.</p>
-          <p>The tools I use are Scratch, Python, and Unity and you will find them featured on my projects page in the future(scratch is already on it!).</p>
-          <p>This is the official website for my projects and creations.</p>
-        </div>
-        <a class="back" href="index.html">← Back to Nimcraft</a>
-      </section>
+      <h1>Scratch Games</h1>
+      <p class="intro">Choose a game and give it a try!</p>
+      <div class="game-list">
+        <a class="game-card" href="https://scratch.mit.edu/projects/1220576017/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/jet-race.png" alt="Jet Race">
+          <strong>Jet Race</strong>
+          <span>Play on Scratch</span>
+        </a>
+        <a class="game-card" href="https://scratch.mit.edu/projects/1228109055/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/the-night-v5.0.png" alt="the night v5.0.">
+          <strong>the night v5.0.</strong>
+          <span>Play on Scratch</span>
+        </a>
+        <a class="game-card" href="https://scratch.mit.edu/projects/1157990137/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/maze.png" alt="Maze Escape the Room 3">
+          <strong>maze/Escape the Room 3</strong>
+          <span>Play on Scratch</span>
+        </a>
+        <a class="game-card" href="https://scratch.mit.edu/projects/1161761820/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/takedown.png" alt="Take down the elements">
+          <strong>take down the element's</strong>
+          <span>Play on Scratch</span>
+        </a>
+      </div>
+      <div class="bottom-section">
+        <a class="profile-card" href="https://scratch.mit.edu/users/nimcraft/" target="_blank" rel="noopener noreferrer">
+          <strong>Visit my Scratch profile</strong>
+          <span>See more projects on Scratch</span>
+        </a>
+        <a class="back" href="games.html">← Back to Games</a>
+      </div>
     </main>
+
+    <p>There are more games that I have created. Plus there are different types of games that you'll find here and maybe some exclusive ones that will be a whole lot of fun to play! This is just the start of my games and I will be adding more in the future, so stay tuned for more updates and new games!
+
+    </p>
 
     <footer>Made by Nimcraft.</footer>
   </div>
   <script>
     const particleLayer = document.querySelector('.particle-layer');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function spawnParticle() {
       if (reducedMotion) return;
+
       const particle = document.createElement('span');
       const life = 26;
       const size = 7 + Math.random() * 3;
@@ -211,10 +352,10 @@
       const targetX = Math.random() * width;
       const targetY = Math.random() * height;
       particle.className = 'particle';
-      particle.style.setProperty('--size', `${size}px`);
       particle.style.setProperty('--glimmer', `${1.5 + Math.random() * 2}s`);
       particle.style.setProperty('--glimmer-delay', `${Math.random() * 2}s`);
       particle.style.setProperty('--glimmer-opacity', `${.2 + Math.random() * .35}`);
+      particle.style.setProperty('--size', `${size}px`);
       particle.style.left = `${startX}px`;
       particle.style.top = `${startY}px`;
       particle.style.setProperty('--life', `${life}s`);
@@ -227,8 +368,8 @@
         particle.remove();
         window.setTimeout(spawnParticle, 0);
       }
-      startParticleCollisionChecks();
     }
+
     const collisionTargets = [...document.querySelectorAll('.page h1, .page h2, .page h3, .page p, .page a, .page strong, .page span:not(.particle), .page li, .page nav, .page footer, .page label, .page small')];
     function particleTouchesText(particle) {
       const particleRect = particle.getBoundingClientRect();
@@ -253,12 +394,15 @@
       }
     }
     if (!reducedMotion) startParticleCollisionChecks();
+
     function scheduleParticle() {
+      const delay = 3000 + Math.random() * 6000;
       window.setTimeout(() => {
         for (let index = 0; index < 14; index += 1) spawnParticle();
         scheduleParticle();
-      }, 3000 + Math.random() * 6000);
+      }, delay);
     }
+
     for (let index = 0; index < 14; index += 1) spawnParticle();
     scheduleParticle();
   </script>

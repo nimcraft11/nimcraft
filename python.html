@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Nimcraft is a collection of projects, experiments, and creations by Nim.">
-  <title>Nimcraft</title>
+  <meta name="description" content="Nimcraft's Python games.">
+  <title>Nimcraft | Python Games</title>
   <style>
     :root {
       color-scheme: dark;
@@ -58,7 +58,7 @@
     .page {
       position: relative;
       z-index: 1;
-      width: min(1100px, calc(100% - 40px));
+      width: min(900px, calc(100% - 40px));
       min-height: 100vh;
       margin: auto;
       display: flex;
@@ -66,9 +66,6 @@
     }
 
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       padding: 22px 0;
       border-bottom: 1px solid var(--line);
     }
@@ -90,131 +87,83 @@
       transform: translateY(-1px);
     }
 
-    nav a {
-      margin-left: 24px;
-      color: var(--muted);
-      font: 600 .82rem/1 Arial, sans-serif;
-      text-decoration: none;
-      transition: color .2s ease, text-shadow .2s ease, filter .2s ease;
-    }
-
-    nav a:hover {
-      color: var(--cyan);
-      text-shadow: 0 0 14px rgba(122, 231, 255, 0.7);
-      filter: brightness(1.15);
-    }
-
     main {
       flex: 1;
-      display: grid;
-      place-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       padding: 80px 0;
       text-align: center;
     }
 
-    .content { max-width: 650px; }
-
-    .eyebrow {
-      margin: 0 0 22px;
-      color: var(--cyan);
-      font: 700 .75rem/1 Arial, sans-serif;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      text-shadow: 0 0 16px rgba(122, 231, 255, 0.45);
-    }
-
     h1 {
-      margin: 0;
+      margin: 0 0 18px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      font-size: clamp(3rem, 8vw, 6rem);
+      font-size: clamp(3rem, 8vw, 5rem);
       font-weight: 800;
       line-height: .9;
-      letter-spacing: .08em;
-      color: #00e5ff;
-      text-shadow: 0 0 20px rgba(97, 177, 255, 0.38), 0 0 40px rgba(122, 231, 255, 0.28);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #ecf6ff 0%, #8ad4ff 35%, #6eb5ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: -1px 1px 0 #5aa5e6, -2px 2px 0 #438bd0, -3px 3px 0 #3274b2, -4px 4px 0 #28679f, -5px 5px 0 #20578f, -6px 6px 0 #194878, -7px 7px 0 #12395f, -8px 8px 0 rgba(8, 23, 43, 0.96), 0 0 24px rgba(97, 177, 255, 0.52), 0 0 44px rgba(122, 231, 255, 0.36);
+      filter: drop-shadow(-4px 9px 11px rgba(0, 0, 0, 0.5));
     }
 
-    p {
-      margin: 26px auto 32px;
-      color: var(--muted);
-      font-size: 1.15rem;
-      line-height: 1.6;
-    }
-
-    .button {
-      display: inline-block;
-      cursor: url("assets/cursor-small.png") 0 0, pointer;
-      padding: 14px 22px;
-      border: 1px solid var(--blue);
-      border-radius: 999px;
-      color: #06101e;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      box-shadow: 0 0 22px rgba(97, 177, 255, 0.38), 0 0 40px rgba(122, 231, 255, 0.18);
-      font: 700 .82rem/1 Arial, sans-serif;
-      text-decoration: none;
-      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
-    }
-
-    .button:hover {
-      background: linear-gradient(135deg, #9ef0ff, #8bbdff);
-      border-color: #9ef0ff;
-      box-shadow: 0 0 28px rgba(122, 231, 255, 0.56), 0 0 52px rgba(97, 177, 255, 0.24);
-      transform: translateY(-1px);
-      filter: brightness(1.08);
-    }
-
-    .button.secondary {
+    .intro {
       color: var(--cyan);
-      background: rgba(122, 231, 255, 0.08);
+      font: 700 1rem/1.4 Arial, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(122, 231, 255, 0.35);
     }
 
-    .button.secondary:hover {
-      color: #06101e;
-      background: linear-gradient(135deg, var(--cyan), #8bb7ff);
-      border-color: var(--cyan);
+    main > p {
+      max-width: 700px;
+      padding: 28px 24px;
+      border: 1px solid rgba(122, 231, 255, 0.38);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(19, 34, 54, 0.96), rgba(9, 17, 28, 0.96));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 18px rgba(97, 177, 255, 0.12), 0 10px 24px rgba(3, 6, 14, 0.35);
+      color: var(--text);
+      line-height: 1.8;
     }
 
-    .actions {
-      display: flex;
+    .back {
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      margin-top: 28px;
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--cyan);
+      background: linear-gradient(135deg, rgba(122, 231, 255, 0.06), rgba(97, 177, 255, 0.04));
+      box-shadow: 0 0 18px rgba(97, 177, 255, 0.12);
+      font: 700 .8rem/1 Arial, sans-serif;
+      text-decoration: none;
+      transition: filter .2s ease, box-shadow .2s ease, border-color .2s ease, transform .2s ease, text-shadow .2s ease;
+    }
+
+    .back:hover {
+      border-color: var(--cyan);
+      filter: brightness(1.28);
+      box-shadow: 0 0 26px rgba(122, 231, 255, 0.26);
+      transform: translateY(-1px);
+      text-shadow: 0 0 14px rgba(122, 231, 255, 0.58);
     }
 
     footer {
       padding: 20px 0;
-      border-top: 1px solid rgba(170, 190, 220, .18);
+      border-top: 1px solid var(--line);
       color: #768197;
       font: .75rem/1.4 Arial, sans-serif;
       text-align: center;
     }
 
-    .projects {
-      margin: 0 calc((100vw - min(1100px, 100vw - 40px)) / -2);
-      padding: 56px max(20px, calc((100vw - 1100px) / 2));
-      color: #101827;
-      background: #ffffff;
-      text-align: center;
-    }
-
-    .projects[hidden] { display: none; }
-
-    .projects h2 { margin: 0 0 12px; font-size: 2rem; font-weight: 400; color: #006ce5; }
-
-    .projects p { margin: 0; color: #596579; font: 1rem/1.5 Arial, sans-serif; }
-
-    .projects a { color: #1672c4; text-decoration: none; }
-
-    .projects a:hover { text-decoration: underline; }
-
-    @media (max-width: 520px) {
-      .page { width: min(100% - 28px, 440px); }
-      header { align-items: flex-start; }
-      .logo { width: 125px; height: 50px; }
-      nav a { margin-left: 12px; }
-      nav a:first-child { display: none; }
-      main { padding: 64px 0; }
-    }
   </style>
 </head>
 <body>
@@ -224,20 +173,13 @@
       <a href="index.html" aria-label="Nimcraft home">
         <img class="logo" src="assets/nimcraft-logo.png" alt="Nimcraft logo">
       </a>
-      <nav aria-label="Main navigation">
-        <a href="about.html">About me</a>
-      </nav>
     </header>
 
-    <main id="about">
-      <section class="content">
-        <p class="eyebrow">My projects and creations</p>
-        <h1>Welcome To Nimcraft.io!</h1>
-        <p>Hello! I'm the creator of Nimcraft.io. I build games from different tools to help me shape my Dreams!</p>
-        <div class="actions">
-          <a class="button" href="projects.html">See what I have made</a>
-        </div>
-      </section>
+    <main>
+      <h1>Python Games</h1>
+      <p class="intro">Choose a game and give it a try!</p>
+      <p>welcome to the python page here you can find more of my games that will be only available in this website and other content that I create like games, tools, and more! This is the next page of my games so let's see what's on this page and which one you'll play or use first!</p>
+      <a class="back" href="games.html">← Back to Games</a>
     </main>
 
     <footer>Made by Nimcraft.</footer>
