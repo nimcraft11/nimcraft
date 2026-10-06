@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="canonical" href="https://nimcraft.io/python.html">
   <meta name="description" content="Nimcraft's Python games.">
   <title>Nimcraft | Python Games</title>
   <style>
@@ -51,8 +53,81 @@
 
     .particle.fading { animation: particle-fade-out .6s ease-out forwards; }
 
+    .shooting-star {
+      position: absolute;
+      left: var(--start-x);
+      top: var(--start-y);
+      width: var(--head-size, 16px);
+      height: var(--head-size, 16px);
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, #d6f5ff 28%, #7ae7ff 58%, rgba(122, 231, 255, 0) 100%);
+      box-shadow: 0 0 18px rgba(122, 231, 255, .95), 0 0 32px rgba(122, 231, 255, .65);
+      opacity: 0;
+      pointer-events: none;
+      filter: drop-shadow(0 0 14px rgba(122, 231, 255, 0.8));
+      animation: shooting-star-flight var(--duration) linear var(--delay, 0s) forwards;
+      transform-origin: center;
+    }
+
+    .shooting-star::after {
+      content: '';
+      position: absolute;
+      inset: -60%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.5), rgba(122,231,255,.18) 42%, transparent 72%);
+    }
+
+    .comet-trail-piece {
+      position: absolute;
+      left: var(--start-x);
+      top: var(--start-y);
+      width: var(--piece-width);
+      height: var(--piece-height);
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(122, 231, 255, .92) 24%, rgba(236, 246, 255, .95) 68%, rgba(255, 255, 255, .7));
+      box-shadow: 0 0 10px rgba(122, 231, 255, .62);
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: left center;
+      animation: shooting-star-flight var(--duration) linear var(--delay) forwards;
+    }
+
+    .shooting-star.fading,
+    .comet-trail-piece.fading {
+      animation: shooting-star-fade .28s ease-out forwards;
+    }
+
+    @keyframes shooting-star-fade {
+      to { opacity: 0; filter: blur(3px); }
+    }
+
     @keyframes particle-fade-out {
       to { opacity: 0; transform: scale(.2); }
+    }
+
+    @keyframes shooting-star-flight {
+      0% {
+        left: var(--start-x);
+        top: var(--start-y);
+        opacity: 0;
+        transform: rotate(var(--curve-angle-0)) scale(.65);
+      }
+      12% { opacity: var(--peak-opacity, 1); }
+      12.5% { left: var(--curve-x-1); top: var(--curve-y-1); transform: rotate(var(--curve-angle-1)) scale(.75); }
+      25% { left: var(--curve-x-2); top: var(--curve-y-2); transform: rotate(var(--curve-angle-2)) scale(.82); }
+      37.5% { left: var(--curve-x-3); top: var(--curve-y-3); transform: rotate(var(--curve-angle-3)) scale(.9); }
+      50% { left: var(--curve-x-4); top: var(--curve-y-4); opacity: var(--peak-opacity, 1); transform: rotate(var(--curve-angle-4)) scale(.94); }
+      62.5% { left: var(--curve-x-5); top: var(--curve-y-5); transform: rotate(var(--curve-angle-5)) scale(.98); }
+      70% { opacity: var(--peak-opacity, 1); }
+      75% { left: var(--curve-x-6); top: var(--curve-y-6); transform: rotate(var(--curve-angle-6)) scale(1); }
+      87.5% { left: var(--curve-x-7); top: var(--curve-y-7); transform: rotate(var(--curve-angle-7)) scale(1.04); }
+      88% { opacity: var(--fade-opacity, .3); }
+      100% {
+        left: var(--end-x);
+        top: var(--end-y);
+        opacity: 0;
+        transform: rotate(var(--curve-angle-8)) scale(1.08);
+      }
     }
 
     .page {
@@ -241,14 +316,181 @@
       }
     }
     if (!reducedMotion) startParticleCollisionChecks();
+
+    const cardTargets = [...document.querySelectorAll('.project-card, .feature-card, .game-card, .profile-card')];
+
+    function rectsOverlap(a, b) {
+      return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+    }
+
+    function shootingStarHitsCard(startX, startY, endX, endY, gravity) {
+      if (!cardTargets.length) return false;
+
+      const minX = Math.min(startX, endX) - 40;
+      const maxX = Math.max(startX, endX) + 40;
+      let minY = startY;
+      let maxY = startY;
+      for (let pointIndex = 1; pointIndex <= 8; pointIndex += 1) {
+        const progress = pointIndex / 8;
+        const curveY = startY + (endY - startY) * progress + gravity * progress * progress;
+        minY = Math.min(minY, curveY);
+        maxY = Math.max(maxY, curveY);
+      }
+      minY -= 32;
+      maxY += 32;
+      const box = { left: minX, right: maxX, top: minY, bottom: maxY };
+
+      return cardTargets.some((target) => {
+        const targetRect = target.getBoundingClientRect();
+        return rectsOverlap(box, targetRect);
+      });
+    }
+
+    function shootingStarTouchesCard(star) {
+      if (!cardTargets.length) return false;
+
+      const starRect = star.getBoundingClientRect();
+      return cardTargets.some((target) => {
+        const targetRect = target.getBoundingClientRect();
+        return starRect.right >= targetRect.left && starRect.left <= targetRect.right && starRect.bottom >= targetRect.top && starRect.top <= targetRect.bottom;
+      });
+    }
+
+    let shootingStarFrame = null;
+
+    function checkShootingStarCollisions() {
+      shootingStarFrame = null;
+      document.querySelectorAll('.shooting-star, .comet-trail-piece').forEach((star) => {
+        if (shootingStarTouchesCard(star) && !star.classList.contains('fading')) {
+          document.querySelectorAll(`[data-comet-id="${star.dataset.cometId}"]`).forEach((piece) => {
+            if (!piece.classList.contains('fading')) {
+              piece.classList.add('fading');
+              piece.addEventListener('animationend', () => piece.remove(), { once: true });
+            }
+          });
+        }
+      });
+      if (document.querySelector('.shooting-star, .comet-trail-piece')) {
+        shootingStarFrame = window.requestAnimationFrame(checkShootingStarCollisions);
+      }
+    }
+
+    function startShootingStarCollisionChecks() {
+      if (!shootingStarFrame && document.querySelector('.shooting-star, .comet-trail-piece')) {
+        shootingStarFrame = window.requestAnimationFrame(checkShootingStarCollisions);
+      }
+    }
+
+    let cometGroupSequence = 0;
+
+    function spawnShootingStar() {
+      if (reducedMotion) return;
+
+      let startX = 0;
+      let startY = 0;
+      let endX = 0;
+      let endY = 0;
+      let angle = 0;
+      let gravity = 0;
+      let attempts = 0;
+
+      do {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        startX = Math.random() * Math.max(width * 0.8, 200);
+        startY = Math.random() * Math.max(height * 0.65, 120);
+        const travelX = 200 + Math.random() * (width * 0.65);
+        const travelY = 60 + Math.random() * (height * 0.38);
+        const directionX = Math.random() < 0.5 ? -1 : 1;
+        const directionY = Math.random() < 0.5 ? -1 : 1;
+        gravity = Math.min(110 + Math.random() * 70, height * .22);
+        endX = startX + directionX * travelX;
+        endY = startY + directionY * travelY;
+        angle = (Math.atan2(endY - startY, endX - startX) * 180) / Math.PI;
+        attempts += 1;
+      } while (shootingStarHitsCard(startX, startY, endX, endY, gravity) && attempts < 24);
+
+      if (attempts >= 24) return;
+
+      const angleRadians = (angle * Math.PI) / 180;
+      const perpendicularX = -Math.sin(angleRadians);
+      const perpendicularY = Math.cos(angleRadians);
+      const cometWidth = 80 + Math.random() * 140;
+      const sizeRatio = (cometWidth - 80) / 140;
+      const comet = {
+        width: cometWidth,
+        height: 2 + sizeRatio * 2,
+        head: 7 + sizeRatio * 9,
+        offset: 0,
+        depth: Math.floor(Math.random() * 3)
+      };
+      const duration = `${1.4 + Math.random() * 1.6}s`;
+      const cometGroupId = String(++cometGroupSequence);
+
+      {
+        const offsetX = perpendicularX * comet.offset;
+        const offsetY = perpendicularY * comet.offset;
+        function createPiece(className, pieceWidth, pieceHeight, opacity, delay, depthOffset) {
+          const piece = document.createElement('span');
+          piece.className = className;
+          piece.dataset.cometId = cometGroupId;
+          piece.style.setProperty('--head-size', `${comet.head}px`);
+          piece.style.setProperty('--piece-width', `${pieceWidth}px`);
+          piece.style.setProperty('--piece-height', `${pieceHeight}px`);
+          piece.style.setProperty('--peak-opacity', String(opacity));
+          piece.style.setProperty('--fade-opacity', String(opacity * .24));
+          piece.style.setProperty('--delay', `${delay}s`);
+          piece.style.setProperty('--duration', duration);
+          piece.style.setProperty('--start-x', `${startX + offsetX}px`);
+          piece.style.setProperty('--start-y', `${startY + offsetY}px`);
+          piece.style.setProperty('--end-x', `${endX + offsetX}px`);
+          piece.style.setProperty('--end-y', `${endY + offsetY + gravity}px`);
+
+          for (let pointIndex = 1; pointIndex < 8; pointIndex += 1) {
+            const progress = pointIndex / 8;
+            const curveX = startX + (endX - startX) * progress + offsetX;
+            const curveY = startY + (endY - startY) * progress + gravity * progress * progress + offsetY;
+            const curveAngle = (Math.atan2(endY - startY + 2 * gravity * progress, endX - startX) * 180) / Math.PI;
+            piece.style.setProperty(`--curve-x-${pointIndex}`, `${curveX}px`);
+            piece.style.setProperty(`--curve-y-${pointIndex}`, `${curveY}px`);
+            piece.style.setProperty(`--curve-angle-${pointIndex}`, `${curveAngle}deg`);
+          }
+          piece.style.setProperty('--curve-angle-0', `${angle}deg`);
+          piece.style.setProperty('--curve-angle-8', `${(Math.atan2(endY - startY + 2 * gravity, endX - startX) * 180) / Math.PI}deg`);
+          piece.style.zIndex = String(comet.depth * 10 + depthOffset);
+          piece.addEventListener('animationend', () => piece.remove(), { once: true });
+          particleLayer.appendChild(piece);
+        }
+
+        createPiece('shooting-star', 0, 0, 1, 0, 1);
+        for (let trailIndex = 1; trailIndex <= 5; trailIndex += 1) {
+          const pieceWidth = Math.max(7, comet.width * (.12 - trailIndex * .012));
+          const pieceHeight = Math.max(1.5, comet.height * 1.5);
+          const opacity = .82 - trailIndex * .11;
+          createPiece('comet-trail-piece', pieceWidth, pieceHeight, opacity, trailIndex * .075, 0);
+        }
+      }
+      startShootingStarCollisionChecks();
+    }
+
     function scheduleParticle() {
       window.setTimeout(() => {
         for (let index = 0; index < 14; index += 1) spawnParticle();
         scheduleParticle();
       }, 3000 + Math.random() * 6000);
     }
+
+    function scheduleShootingStar() {
+      window.setTimeout(() => {
+        spawnShootingStar();
+        scheduleShootingStar();
+      }, 2200 + Math.random() * 4200);
+    }
+
+    spawnShootingStar();
     for (let index = 0; index < 14; index += 1) spawnParticle();
     scheduleParticle();
+    scheduleShootingStar();
   </script>
 </body>
 </html>
