@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#081426">
+    <title>Geo | Nimcraft</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="site.css">
+  <script src="TemplateData/profiler.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="Nimcraft home">Nimcraft</a>
+      <a class="back-link" href="../gameHub.html">← Back to Game Hub</a>
+    </header>
+    <main class="game-page">
+      <h1>Geo</h1>
+      <p class="game-help">--Welcome To Geo press space to jump if your playing on computer or tap the screen if on tab or phone. Good Luck! if you are playing on a phone then turn it horizontally please--</p>
+      <div id="mobile-orientation-overlay" role="status" aria-live="polite"><div class="orientation-icon" aria-hidden="true"><svg viewBox="0 0 120 112" focusable="false"><rect x="43" y="29" width="36" height="59" rx="6" fill="#102431" stroke="currentColor" stroke-width="4"/><path d="M55 37h12M58 80h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M34 43c7-20 30-29 49-19 8 4 14 11 17 19" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="m89 38 12 5 1-13" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Turn your phone sideways to play</p></div>
+      <div id="unity-container" class="unity-desktop">
+        <div class="game-controls">
+          <button id="pause-game" type="button" disabled>Pause game</button>
+          <button id="fullscreen-game" type="button" aria-label="Enter fullscreen">Fullscreen</button>
+        </div>
+        <button id="jump-game" type="button" aria-label="Jump" disabled>JUMP</button>
+      <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">Geo</div>
+      </div>
+      </div>
+    </main>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+      var unityInstance = null;
+      var gamePaused = false;
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/builded.loader.js?v=geo-20261020";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/builded.data?v=geo-20261020",
+        frameworkUrl: buildUrl + "/builded.framework.js?v=geo-20261020",
+        codeUrl: buildUrl + "/builded.wasm?v=geo-20261020",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Geo",
+        productVersion: "0.1.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
+
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
+
+      var isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobileDevice) {
+        document.body.classList.add("mobile-device");
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+
+      document.addEventListener("fullscreenchange", () => {
+        if (document.fullscreenElement && screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock("landscape").catch(() => {});
+        }
+      });
+
+      document.querySelector("#unity-loading-bar").style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+              }).then((instance) => {
+                unityInstance = instance;
+                document.querySelector("#unity-loading-bar").style.display = "none";
+                document.querySelector("#pause-game").disabled = false;
+                document.querySelector("#jump-game").disabled = false;
+                document.querySelector("#fullscreen-game").onclick = () => {
+                  var gameFrame = document.querySelector("#unity-container");
+                  if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                  } else if (gameFrame.requestFullscreen) {
+                    gameFrame.requestFullscreen();
+                  }
+                };
+
+
+
+                // Unloading web content from DOM so that browser GC can run can be tricky to get right.
+                // This code snippet shows how to correctly implement a Unity content Unload mechanism to a web page.
+
+                // Unloading Unity content enables a web page to reclaim the memory used by Unity, e.g. for
+                // the purpose of later loading another Unity content instance on the _same_ web page.
+
+                // When using this functionality, take caution to carefully make sure to clear all JavaScript code,
+                // DOM element and event handler references to the old content you may have retained, or
+                // otherwise the browser's garbage collector will be unable to reclaim the old page.
+
+                // N.b. Unity content does _not_ need to be manually unloaded when the user is navigating away from
+                // the current page to another web page. The browser will take care to clear memory of old visited
+                // pages automatically. This functionality is only needed if you want to switch between loading
+                // multiple Unity builds on a single web page.
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+
+      document.querySelector("#pause-game").addEventListener("click", () => {
+        if (!unityInstance) return;
+        gamePaused = !gamePaused;
+        setGamePaused(gamePaused);
+        document.querySelector("#pause-game").textContent = gamePaused ? "Continue game" : "Pause game";
+      });
+
+      document.querySelector("#jump-game").addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        if (!unityInstance || gamePaused) return;
+        unityInstance.SendMessage("Player", "Jump");
+      });
+
+      function setGamePaused(paused) {
+        if (!unityInstance || !unityInstance.Module) return;
+        var module = unityInstance.Module;
+        if (paused) {
+          if (typeof module.pauseMainLoop === "function") module.pauseMainLoop();
+        } else if (typeof module.resumeMainLoop === "function") {
+          module.resumeMainLoop();
+        }
+      }
+
+      var fullscreenResizeTimer;
+      function redrawPausedGame() {
+        if (!gamePaused || !unityInstance || !unityInstance.Module) return;
+        var module = unityInstance.Module;
+        if (typeof module.resumeMainLoop !== "function" || typeof module.pauseMainLoop !== "function") return;
+        // A fullscreen resize clears the WebGL canvas. Render two frames so
+        // Unity can apply the new size, then stop the game loop again.
+        module.resumeMainLoop();
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          if (gamePaused) module.pauseMainLoop();
+        }));
+      }
+
+      function refreshPausedCanvas() {
+        if (!gamePaused) return;
+        window.clearTimeout(fullscreenResizeTimer);
+        fullscreenResizeTimer = window.setTimeout(redrawPausedGame, 100);
+      }
+
+      document.addEventListener("fullscreenchange", refreshPausedCanvas);
+      document.addEventListener("webkitfullscreenchange", refreshPausedCanvas);
+      document.addEventListener("fullscreenchange", () => {
+        var isFullscreen = Boolean(document.fullscreenElement);
+        document.querySelector("#fullscreen-game").textContent = isFullscreen ? "Exit fullscreen" : "Fullscreen";
+        document.querySelector("#fullscreen-game").setAttribute("aria-label", isFullscreen ? "Exit fullscreen" : "Enter fullscreen");
+      });
+      window.addEventListener("resize", refreshPausedCanvas);
+
+      document.body.appendChild(script);
+
+    </script>
+  </body>
+</html>

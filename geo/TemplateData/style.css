@@ -1,0 +1,85 @@
+body { padding: 0; margin: 0 }
+#unity-container { position: absolute }
+#unity-container.unity-desktop { left: 50%; top: 50%; transform: translate(-50%, -50%) }
+#unity-container.unity-mobile { position: relative; width: 100%; height: auto }
+#unity-canvas { background: #231F20 }
+.unity-mobile #unity-canvas { width: 100%; height: 100% }
+#unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
+#unity-logo { width: 154px; height: 130px; background: url('nimcraft-logo-animation.gif') no-repeat center; background-size: contain }
+#unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; margin-left: 6.5px; background: url('progress-bar-empty-dark.png') no-repeat center }
+#unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
+#unity-footer { position: relative }
+.unity-mobile #unity-footer { display: none }
+#unity-logo-title-footer { float:left; width: 102px; height: 38px; background: url('unity-logo-title-footer.png') no-repeat center }
+#unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
+#unity-fullscreen-button { cursor:pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
+#unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+
+
+/* Keep the Nimcraft game shell while adapting the newest Unity build to mobile. */
+body.mobile-device {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  background: #10151b;
+}
+body.mobile-device .site-header,
+body.mobile-device .game-page > h1,
+body.mobile-device .game-help {
+  display: none;
+}
+body.mobile-device .game-page {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+body.mobile-device #unity-container.unity-mobile {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  margin: 0;
+  aspect-ratio: auto;
+}
+body.mobile-device #unity-canvas.unity-mobile {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: manipulation;
+}
+body.mobile-device .game-controls { z-index: 21; }
+body.mobile-device #jump-game { z-index: 21; }
+#mobile-orientation-overlay { display: none; }
+@media screen and (max-width: 900px) and (orientation: portrait) {
+  body.mobile-device #mobile-orientation-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 28px;
+    box-sizing: border-box;
+    color: #eaf6ff;
+    background: #081426;
+    font: 700 20px/1.4 Arial, sans-serif;
+    text-align: center;
+  }
+  #mobile-orientation-overlay p { max-width: 18em; margin: 0; }
+  #mobile-orientation-overlay .orientation-icon {
+    color: #48b9dd;
+    filter: drop-shadow(0 0 10px rgba(72, 185, 221, .4));
+  }
+  #mobile-orientation-overlay .orientation-icon svg {
+    display: block;
+    width: 112px;
+    height: 112px;
+    overflow: visible;
+  }
+}
