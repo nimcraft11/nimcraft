@@ -1,34 +1,38 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
     <head>
-
-        <title> Game Hub </title>
-        <link rel="stylesheet" href="style-gameHub.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Game Hub</title>
+        <link rel="stylesheet" href="style-gameHub.css?v=20261108-background">
         <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-
     </head>
-</html>
-
 <body>
-
     <div class="textStart">
-
         <h1>. Game Hub .</h1>
         <p>Welcome to the game hub this is where you can find games I have created. so what one do you want to play first?</p>
-
     </div>
 
-    <div class="Geo">
-        <button type="button" onclick="window.location.href='geo/index.html'"><img src="assets/geoLog.png" alt="Geo" width="200">Geo</button>
+    <div class="game-row">
+        <div class="Geo">
+            <button type="button" onclick="window.location.href='geo/index.html'">
+                <img src="assets/geoLog.png" alt="Geo">
+                <span>Geo</span>
+            </button>
+        </div>
+
+        <div class="SkyBall">
+            <button type="button" onclick="window.location.href='game2/index.html'">
+                <img src="assets/game2.png" alt="SkyBall">
+                <span>SkyBall</span>
+            </button>
+        </div>
     </div>
 
     <div class="linkBack">
         <button class="backButton" onclick="goBack()">--Back To Games--</button>
     </div>
 
-    <script src="gameHub.js"></script>
-
-
-
+    <script src="gameHub.js?v=20261107"></script>
 </body>
+</html>

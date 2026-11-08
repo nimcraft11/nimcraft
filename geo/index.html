@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#081426">
     <title>Geo | Nimcraft</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="stylesheet" href="site.css">
+    <link rel="icon" href="../assets/favicon.ico?v=20261107-ico" type="image/x-icon">
+    <link rel="stylesheet" href="TemplateData/style.css?v=20261108-geo-intro">
+    <link rel="stylesheet" href="site.css?v=20261108-geo-full">
   <script src="TemplateData/profiler.js"></script>
   </head>
   <body>
@@ -18,27 +18,36 @@
     </header>
     <main class="game-page">
       <h1>Geo</h1>
-      <p class="game-help">--Welcome To Geo press space to jump if your playing on computer or tap the screen if on tab or phone. Good Luck! if you are playing on a phone then turn it horizontally please--</p>
+      <p class="game-help">Read the instructions in the game window, then press Play when you’re ready.</p>
       <div id="mobile-orientation-overlay" role="status" aria-live="polite"><div class="orientation-icon" aria-hidden="true"><svg viewBox="0 0 120 112" focusable="false"><rect x="43" y="29" width="36" height="59" rx="6" fill="#102431" stroke="currentColor" stroke-width="4"/><path d="M55 37h12M58 80h6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M34 43c7-20 30-29 49-19 8 4 14 11 17 19" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="m89 38 12 5 1-13" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p>Turn your phone sideways to play</p></div>
       <div id="unity-container" class="unity-desktop">
+        <a class="mobile-gamehub-link" href="../gameHub.html">← Game Hub</a>
         <div class="game-controls">
           <button id="pause-game" type="button" disabled>Pause game</button>
-          <button id="fullscreen-game" type="button" aria-label="Enter fullscreen">Fullscreen</button>
+          <button id="fullscreen-game" type="button" aria-label="Enter fullscreen" disabled>Fullscreen</button>
         </div>
         <button id="jump-game" type="button" aria-label="Jump" disabled>JUMP</button>
-      <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
+        <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
+        <div id="unity-loading-bar" role="status" aria-label="Loading Geo">
+          <div id="unity-logo"></div>
+          <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+          </div>
         </div>
-      </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-logo-title-footer"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">Geo</div>
-      </div>
+        <section id="game-intro" aria-labelledby="game-intro-title">
+          <div class="game-intro-card">
+            <h2 id="game-intro-title">How to play Geo</h2>
+            <p>Press Space on a computer or tap the screen or Jump button on a phone to jump.</p>
+            <p>Turn your phone sideways to play. Good luck!</p>
+            <button id="start-game" type="button" disabled>Loading game...</button>
+          </div>
+        </section>
+        <div id="unity-warning" role="status" aria-live="polite"></div>
+        <div id="unity-footer">
+          <div id="unity-logo-title-footer"></div>
+          <div id="unity-fullscreen-button"></div>
+          <div id="unity-build-title">Geo</div>
+        </div>
       </div>
     </main>
     <script>
@@ -58,7 +67,7 @@
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
         }
         var div = document.createElement('div');
-        div.innerHTML = msg;
+        div.textContent = msg;
         warningBanner.appendChild(div);
         if (type == 'error') div.style = 'background: red; padding: 10px;';
         else {
@@ -133,9 +142,14 @@
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((instance) => {
                 unityInstance = instance;
+                if (!unityInstance.Module || typeof unityInstance.Module.pauseMainLoop !== "function") {
+                  throw new Error("Pause is unavailable in this Geo build.");
+                }
+                unityInstance.Module.pauseMainLoop();
                 document.querySelector("#unity-loading-bar").style.display = "none";
-                document.querySelector("#pause-game").disabled = false;
-                document.querySelector("#jump-game").disabled = false;
+                var startButton = document.querySelector("#start-game");
+                startButton.disabled = false;
+                startButton.textContent = "Play Geo";
                 document.querySelector("#fullscreen-game").onclick = () => {
                   var gameFrame = document.querySelector("#unity-container");
                   if (document.fullscreenElement) {
@@ -167,31 +181,51 @@
             };
 
       document.querySelector("#pause-game").addEventListener("click", () => {
-        if (!unityInstance) return;
-        gamePaused = !gamePaused;
-        setGamePaused(gamePaused);
+        var pause = !gamePaused;
+        try {
+          setGamePaused(pause);
+        } catch (error) {
+          unityShowBanner(error.message, "error");
+          return;
+        }
+        gamePaused = pause;
         document.querySelector("#pause-game").textContent = gamePaused ? "Continue game" : "Pause game";
+      });
+
+      document.querySelector("#start-game").addEventListener("click", () => {
+        try {
+          setGamePaused(false);
+        } catch (error) {
+          unityShowBanner(error.message, "error");
+          return;
+        }
+        document.querySelector("#game-intro").hidden = true;
+        document.querySelector("#pause-game").disabled = false;
+        document.querySelector("#jump-game").disabled = false;
+        document.querySelector("#fullscreen-game").disabled = false;
       });
 
       document.querySelector("#jump-game").addEventListener("pointerdown", (event) => {
         event.preventDefault();
-        if (!unityInstance || gamePaused) return;
+        if (!unityInstance || gamePaused || !document.querySelector("#game-intro").hidden) return;
         unityInstance.SendMessage("Player", "Jump");
       });
 
       function setGamePaused(paused) {
-        if (!unityInstance || !unityInstance.Module) return;
-        var module = unityInstance.Module;
-        if (paused) {
-          if (typeof module.pauseMainLoop === "function") module.pauseMainLoop();
-        } else if (typeof module.resumeMainLoop === "function") {
-          module.resumeMainLoop();
+        if (!unityInstance || !unityInstance.Module) {
+          throw new Error("Geo is not ready to pause.");
         }
+        var module = unityInstance.Module;
+        var loopMethod = paused ? module.pauseMainLoop : module.resumeMainLoop;
+        if (typeof loopMethod !== "function") {
+          throw new Error("Pause is unavailable in this Geo build.");
+        }
+        loopMethod.call(module);
       }
 
       var fullscreenResizeTimer;
       function redrawPausedGame() {
-        if (!gamePaused || !unityInstance || !unityInstance.Module) return;
+        if (!gamePaused || !unityInstance || !unityInstance.Module || !document.querySelector("#game-intro").hidden) return;
         var module = unityInstance.Module;
         if (typeof module.resumeMainLoop !== "function" || typeof module.pauseMainLoop !== "function") return;
         // A fullscreen resize clears the WebGL canvas. Render two frames so
@@ -217,7 +251,12 @@
       });
       window.addEventListener("resize", refreshPausedCanvas);
 
-      document.body.appendChild(script);
+      if (window.location.protocol === "file:") {
+        document.querySelector("#unity-loading-bar").style.display = "none";
+        unityShowBanner("Geo needs to be opened through a web server, not directly from a file. Start a local server in the website folder, then open http://localhost:8000/gameHub.html.", "error");
+      } else {
+        document.body.appendChild(script);
+      }
 
     </script>
   </body>
