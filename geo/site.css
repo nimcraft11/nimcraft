@@ -71,13 +71,18 @@ body {
   line-height: 1.5;
 }
 
+.mobile-gamehub-link {
+  display: none;
+}
+
 .game-controls {
   position: absolute;
   z-index: 4;
   top: 10px;
-  right: 10px;
+  left: 50%;
   display: flex;
   gap: 8px;
+  transform: translateX(-50%);
 }
 
 #pause-game {
@@ -155,7 +160,7 @@ body {
 }
 
 #unity-container:fullscreen #unity-footer { display: none; }
-#unity-container:fullscreen .game-controls { top: 12px; right: 12px; }
+#unity-container:fullscreen .game-controls { top: 12px; left: 50%; }
 #unity-footer { display: none; }
 
 #unity-container.unity-desktop {
@@ -174,12 +179,66 @@ body {
   touch-action: manipulation;
 }
 
+#game-intro {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 24px;
+  color: #eaf6ff;
+  background: rgba(5, 13, 28, .82);
+  text-align: left;
+}
+
+#game-intro[hidden] { display: none; }
+
+.game-intro-card {
+  width: min(100%, 620px);
+  padding: 28px;
+  border: 1px solid rgba(108, 230, 255, .55);
+  border-radius: 18px;
+  background: rgba(11, 35, 61, .97);
+  box-shadow: 0 0 32px rgba(0, 179, 249, .24);
+}
+
+.game-intro-card h2 {
+  margin: 0 0 16px;
+  color: #8ad4ff;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  text-align: center;
+}
+
+.game-intro-card p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+#start-game {
+  display: block;
+  min-height: 48px;
+  margin: 20px auto 0;
+  padding: 0 24px;
+  border: 1px solid rgba(108, 230, 255, .7);
+  border-radius: 12px;
+  color: #eaf6ff;
+  background: linear-gradient(135deg, #126194, #0b3558);
+  font: 700 1rem Arial, sans-serif;
+  cursor: pointer;
+}
+
+#start-game:hover:not(:disabled),
+#start-game:focus-visible { background: #1674a8; }
+#start-game:disabled { opacity: .6; cursor: wait; }
+
 #unity-footer {
   min-height: 38px;
   color: #c4d9ed;
 }
 
-#unity-warning { z-index: 5; }
+#unity-warning { z-index: 15; }
 
 @media (max-width: 600px) {
   body { overflow-x: hidden; }
@@ -189,12 +248,37 @@ body {
   .game-page { width: 100%; padding: 12px 0 20px; }
   .game-page h1 { margin: 0 12px 4px; font-size: 1.5rem; }
   .game-help { margin: 0 16px 12px; font-size: .9rem; }
-  .game-controls { top: 8px; right: 8px; gap: 6px; }
+  .game-controls { top: 8px; left: 50%; gap: 6px; }
   #pause-game, #fullscreen-game { min-height: 40px; padding: 0 10px; font-size: .85rem; }
+  #game-intro { padding: 16px; }
+  .game-intro-card { padding: 20px; }
   #unity-container { width: calc(100% - 24px) !important; height: auto !important; aspect-ratio: 8 / 5; }
   #unity-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
   #unity-footer { display: none; }
 }
+
+body.mobile-device .mobile-gamehub-link {
+  position: absolute;
+  z-index: 22;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  left: max(10px, env(safe-area-inset-left));
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid rgba(108, 230, 255, .65);
+  border-radius: 12px;
+  color: #dff8ff;
+  background: rgba(11, 35, 61, .94);
+  font: 700 .9rem Arial, sans-serif;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+body.mobile-device .mobile-gamehub-link:hover,
+body.mobile-device .mobile-gamehub-link:focus-visible { background: #123d63; }
+
+#unity-container:fullscreen .mobile-gamehub-link { display: none; }
 
 @media (pointer: coarse) {
   #jump-game { display: block; }

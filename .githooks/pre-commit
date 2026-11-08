@@ -27,6 +27,7 @@ for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.html$
     esac
 
     target=${reference%%\#*}
+    target=${target%%\?*}
     [ -n "$target" ] || continue
     case "$target" in
       /*) target=${target#/} ;;
