@@ -23,7 +23,7 @@ done
 for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.html$' || true); do
   git show ":$file" | grep -oE '(href|src)="[^"]+"' | sed 's/^[^=]*="//; s/"$//' | while IFS= read -r reference; do
     case "$reference" in
-      http://*|https://*|mailto:*|\#*|/\#*|javascript:*) continue ;;
+      http://*|https://*|mailto:*|data:*|\#*|/\#*|javascript:*) continue ;;
     esac
 
     target=${reference%%\#*}
