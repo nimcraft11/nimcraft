@@ -1,7 +1,7 @@
 body {
     min-height: 100vh;
     margin: 0;
-    background-image: url("./assets/background.png?v=20261108");
+    background-image: url("../background.png?v=20261108");
     background-repeat: repeat;
     background-position: top left;
     text-align: center;
@@ -22,7 +22,7 @@ button {
     border-radius: 20px;
     border-color: rgb(0, 238, 255);
     color: rgb(0, 255, 221);
-    background-image: url("./assets/background.png?v=20261108");
+    background-image: url("../background.png?v=20261108");
     cursor: pointer;
 }
 
@@ -34,12 +34,14 @@ button {
 }
 
 .Geo,
-.SkyBall {
+.SkyBall,
+.LaserShouter {
     padding: 10px;
 }
 
 .Geo button,
-.SkyBall button {
+.SkyBall button,
+.LaserShouter button {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,6 +57,16 @@ button {
     width: 150px;
     height: 150px;
     object-fit: contain;
+}
+
+.laser-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    font-size: 52px;
+    filter: drop-shadow(0 0 18px rgba(0, 255, 255, 0.7));
 }
 
 button:hover {

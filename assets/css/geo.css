@@ -9,7 +9,7 @@ body {
   min-height: 100vh;
   background:
     linear-gradient(rgba(5, 13, 28, .68), rgba(5, 13, 28, .82)),
-    url("../assets/background.png") center top / cover fixed,
+    url("../background.png") center top / cover fixed,
     #081426;
 }
 

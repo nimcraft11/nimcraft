@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#081426">
+  <title>Laser Shouter | Nimcraft</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #081426;
+      color: #eaf6ff;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background:
+        linear-gradient(rgba(5, 13, 28, .68), rgba(5, 13, 28, .82)),
+        url("assets/background.png") center top / cover fixed,
+        #081426;
+    }
+
+    .site-header {
+      width: min(1100px, calc(100% - 32px));
+      min-height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid rgba(122, 231, 255, .24);
+    }
+
+    .brand {
+      color: #8ad4ff;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-decoration: none;
+      text-shadow: 0 0 18px rgba(0, 179, 249, .55);
+    }
+
+    .back-link {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      padding: 0 16px;
+      border: 1px solid rgba(108, 230, 255, .55);
+      border-radius: 12px;
+      color: #9deaff;
+      background: rgba(11, 35, 61, .85);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible {
+      background: #123d63;
+      box-shadow: 0 0 20px rgba(108, 230, 255, .22);
+    }
+
+    .game-page {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 36px;
+      text-align: center;
+    }
+
+    .game-page h1 {
+      margin: 0 0 8px;
+      color: #8ad4ff;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      text-shadow: 0 0 22px rgba(0, 179, 249, .4);
+    }
+
+    .game-help {
+      margin: 0 0 18px;
+      color: #c4d9ed;
+      line-height: 1.5;
+    }
+
+    .fullscreen-button {
+      min-height: 42px;
+      margin: 0 0 16px;
+      padding: 0 16px;
+      border: 1px solid rgba(136, 216, 255, .5);
+      border-radius: 10px;
+      color: #eaf6ff;
+      background: rgba(8, 24, 42, .88);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .fullscreen-button:hover,
+    .fullscreen-button:focus-visible {
+      background: rgba(17, 55, 82, .96);
+      box-shadow: 0 0 18px rgba(108, 230, 255, .2);
+    }
+
+    .game-shell {
+      width: min(100%, 960px);
+      height: min(72vw, 600px);
+      max-height: 600px;
+      margin: 0 auto;
+      position: relative;
+      padding: 12px;
+      border: 1px solid rgba(136, 216, 255, .36);
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, rgba(12, 20, 33, 1), rgba(5, 10, 18, 1));
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(144, 214, 255, .12),
+        0 18px 50px rgba(0, 0, 0, .45),
+        0 0 28px rgba(42, 149, 255, .15);
+    }
+
+    .game-shell::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 16px;
+      border: 1px solid rgba(122, 231, 255, .18);
+      pointer-events: none;
+      box-shadow: inset 0 0 18px rgba(141, 220, 255, .08);
+    }
+
+    .game-shell iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+      border: 0;
+      border-radius: 16px;
+      background: #02050b;
+    }
+
+    .fullscreen-exit {
+      display: none;
+      position: absolute;
+      z-index: 2;
+      top: 20px;
+      right: 20px;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid rgba(136, 216, 255, .5);
+      border-radius: 10px;
+      color: #eaf6ff;
+      background: rgba(8, 24, 42, .92);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .game-shell:fullscreen {
+      box-sizing: border-box;
+      width: 100vw;
+      height: 100vh;
+      max-height: none;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: #02050b;
+      box-shadow: none;
+    }
+
+    .game-shell:fullscreen::before {
+      display: none;
+    }
+
+    .game-shell:fullscreen iframe {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+
+    .game-shell:fullscreen .fullscreen-exit {
+      display: inline-flex;
+      align-items: center;
+    }
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Nimcraft home">Nimcraft</a>
+    <a class="back-link" href="gameHub.html">← Back to Game Hub</a>
+  </header>
+
+  <main class="game-page">
+    <h1>Laser Shouter</h1>
+    <p class="game-help">Read the instructions in the game window, then press Play when you’re ready.</p>
+    <button class="fullscreen-button" type="button" id="fullscreen-button">Fullscreen</button>
+
+    <div class="game-shell" aria-label="Laser Shouter game area">
+      <button class="fullscreen-exit" type="button" id="fullscreen-exit">Exit fullscreen</button>
+      <iframe
+        src="laser-shooter/index.html"
+        title="Laser Shouter">
+      </iframe>
+    </div>
+  </main>
+  <script>
+    const gameShell = document.querySelector(".game-shell");
+    const fullscreenButton = document.querySelector("#fullscreen-button");
+    const fullscreenExit = document.querySelector("#fullscreen-exit");
+
+    fullscreenButton.addEventListener("click", async () => {
+      await gameShell.requestFullscreen();
+    });
+
+    fullscreenExit.addEventListener("click", () => document.exitFullscreen());
+
+    document.addEventListener("fullscreenchange", () => {
+      fullscreenButton.textContent = document.fullscreenElement ? "Exit fullscreen" : "Fullscreen";
+    });
+  </script>
+</body>
+</html>

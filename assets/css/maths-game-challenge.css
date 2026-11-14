@@ -1,0 +1,12 @@
+body {
+    background-image: url("../red.png");
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #ff9d9d;
+    font-size: 60px;
+    text-shadow: 0 0 40px rgb(255, 198, 124);
+    text-decoration-line: underline;
+}

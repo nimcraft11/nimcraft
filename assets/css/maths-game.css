@@ -1,0 +1,61 @@
+body {
+    background-image: url("../mathBG.png?v=20261108");
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #000000;
+    font-size: 60px;
+    text-shadow: 0 0 40px rgb(255, 124, 124);
+    text-decoration-line: underline;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    display: flex;
+    border-radius: 50%;
+    box-shadow: 0 0 80px rgb(255, 124, 124);
+}
+
+.logo img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: block;
+}
+
+.startText {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    text-shadow: 0 0 40px rgb(255, 124, 124);
+}
+
+.startButton {
+    background-image: url("../red.png");
+    width: 200px;
+    margin: 30px auto;
+    padding: 90px;
+    border-radius: 20px;
+    border: 2px rgb(255, 61, 61);
+
+}
+
+button {
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 10px;
+    background-image: url("../red.png");
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+
+}
+
+button:hover {
+    background-color: rgb(153, 77, 0);
+    box-shadow: 0 0 40px rgb(255, 115, 0);
+    color: rgb(255, 145, 0);
+}
